@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HeroSection;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HeroSectionController extends Controller
 {
@@ -12,7 +13,8 @@ class HeroSectionController extends Controller
      */
     public function index()
     {
-        //
+        $heroSection = HeroSection::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/HeroSections/Index',['items' => $heroSection]);
     }
 
     /**
@@ -20,7 +22,8 @@ class HeroSectionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/HeroSections/Create');
+
     }
 
     /**
@@ -44,7 +47,7 @@ class HeroSectionController extends Controller
      */
     public function edit(HeroSection $heroSection)
     {
-        //
+        return Inertia::render('Admin/HeroSections/Edit');
     }
 
     /**

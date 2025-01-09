@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
@@ -12,7 +13,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/Appointments/Index',['items' => $appointments]);
     }
 
     /**

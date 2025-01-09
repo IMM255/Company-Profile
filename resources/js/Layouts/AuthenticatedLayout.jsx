@@ -30,11 +30,131 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex items-center ">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center rounded-md px-3 py-4 xl:py-6 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                                            >
+                                                Landing Page
+                                                <svg
+                                                    className="ms-2 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+                                    <Dropdown.Content>
+                                        <Dropdown.Link
+                                            href={route(
+                                                "admin.statistics.index"
+                                            )}
+                                        >
+                                            Statistics
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route(
+                                                "admin.principles.index"
+                                            )}
+                                        >
+                                            Our Principles
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route(
+                                                "admin.hero_sections.index"
+                                            )}
+                                        >
+                                            Hero Section
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
                                 <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
+                                    href={route("admin.teams.index")}
+                                    active={route().current(
+                                        "admin.teams.index"
+                                    )}
                                 >
-                                    Statistic
+                                    Our Teams
+                                </NavLink>
+                                <NavLink
+                                    href={route("admin.products.index")}
+                                    active={route().current(
+                                        "admin.products.index"
+                                    )}
+                                >
+                                    Our Products
+                                </NavLink>
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex items-center ">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center rounded-md px-3 py-4 xl:py-6 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                                            >
+                                                Stories
+                                                <svg
+                                                    className="ms-2 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+                                    <Dropdown.Content>
+                                        <Dropdown.Link
+                                            href={route(
+                                                "admin.statistics.index"
+                                            )}
+                                        >
+                                            Statistics
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route(
+                                                "admin.principles.index"
+                                            )}
+                                        >
+                                            Our Principles
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route(
+                                                "admin.hero_sections.index"
+                                            )}
+                                        >
+                                            Hero Section
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                                <NavLink
+                                    href={route("admin.abouts.index")}
+                                    active={route().current(
+                                        "admin.abouts.index"
+                                    )}
+                                >
+                                    About
+                                </NavLink>
+                                <NavLink
+                                    href={route("admin.appointments.index")}
+                                    active={route().current(
+                                        "admin.appointments.index"
+                                    )}
+                                >
+                                    Appointments
                                 </NavLink>
                             </div>
                         </div>

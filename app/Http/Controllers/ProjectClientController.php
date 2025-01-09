@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjectClient;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProjectClientController extends Controller
 {
@@ -12,7 +13,8 @@ class ProjectClientController extends Controller
      */
     public function index()
     {
-        //
+        $client = ProjectClient::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/Clients/Index',['items' => $client]);
     }
 
     /**
@@ -20,7 +22,7 @@ class ProjectClientController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Clients/Create');
     }
 
     /**
@@ -44,7 +46,7 @@ class ProjectClientController extends Controller
      */
     public function edit(ProjectClient $projectClient)
     {
-        //
+        return Inertia::render('Admin/Clients/Create');
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectClient;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TestimonialController extends Controller
 {
@@ -12,7 +14,9 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        //
+        $testimonial = Testimonial::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/Testimonials/Index',['items' => $testimonial]);
+
     }
 
     /**
@@ -20,7 +24,8 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        //
+        $clients = ProjectClient::orderByDesc('id')->get();
+        return Inertia::render('Admin/Testimonials/Create',['items' => $clients]);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OurTeam;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OurTeamController extends Controller
 {
@@ -12,7 +13,8 @@ class OurTeamController extends Controller
      */
     public function index()
     {
-        //
+        $team = OurTeam::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/Teams/Index',['items' => $team]);
     }
 
     /**
@@ -20,7 +22,7 @@ class OurTeamController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Teams/Create');
     }
 
     /**
@@ -44,7 +46,7 @@ class OurTeamController extends Controller
      */
     public function edit(OurTeam $ourTeam)
     {
-        //
+        return Inertia::render('Admin/Teams/Edit');
     }
 
     /**

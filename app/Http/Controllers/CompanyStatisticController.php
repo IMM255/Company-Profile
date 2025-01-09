@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CompanyStatistic;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CompanyStatisticController extends Controller
 {
@@ -12,7 +13,8 @@ class CompanyStatisticController extends Controller
      */
     public function index()
     {
-        //
+        $statistic = CompanyStatistic::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/Statistics/Index',['items' => $statistic]);
     }
 
     /**
@@ -20,7 +22,7 @@ class CompanyStatisticController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Statistics/Create');
     }
 
     /**
@@ -44,7 +46,7 @@ class CompanyStatisticController extends Controller
      */
     public function edit(CompanyStatistic $companyStatistic)
     {
-        //
+        return Inertia::render('Admin/HeroSections/Edit');
     }
 
     /**

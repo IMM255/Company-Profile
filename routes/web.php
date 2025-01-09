@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\CompantAboutController;
+use App\Http\Controllers\CompanyAboutController;
 use App\Http\Controllers\CompanyStatisticController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HeroSectionController;
 use App\Http\Controllers\OurPrincipleController;
 use App\Http\Controllers\OurTeamController;
@@ -14,14 +15,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/',[FrontController::class, 'index'])->name('front.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -53,7 +47,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('teams',OurTeamController::class);
         });
         Route::middleware('can:manage abouts')->group(function() {
-            Route::resource('abouts',CompantAboutController::class);
+            Route::resource('abouts',CompanyAboutController::class);
         });
         Route::middleware('can:manage appointments')->group(function() {
             Route::resource('appointments',AppointmentController::class);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OurPrinciple;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OurPrincipleController extends Controller
 {
@@ -12,7 +13,9 @@ class OurPrincipleController extends Controller
      */
     public function index()
     {
-        //
+        $principles = OurPrinciple::orderByDesc('id')->paginate(10);
+        return Inertia::render('Admin/Principles/Index',['items' => $principles]);
+
     }
 
     /**
@@ -20,7 +23,7 @@ class OurPrincipleController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Principles/Create');
     }
 
     /**
@@ -44,7 +47,7 @@ class OurPrincipleController extends Controller
      */
     public function edit(OurPrinciple $ourPrinciple)
     {
-        //
+        return Inertia::render('Admin/Principles/Edit');
     }
 
     /**
