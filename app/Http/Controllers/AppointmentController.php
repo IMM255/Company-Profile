@@ -13,7 +13,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = Appointment::orderByDesc('id')->paginate(10);
+        $appointments = Appointment::all();
         return Inertia::render('Admin/Appointments/Index',['items' => $appointments]);
     }
 

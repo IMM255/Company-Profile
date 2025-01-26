@@ -11,7 +11,7 @@ class StoreHeroSectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class StoreHeroSectionRequest extends FormRequest
             'achievement' => ['required','string','max:255'],
             'subheading' => ['required','string','max:255'],
             'path_video' => ['required','string','max:255'],
-            'icon' => ['required','image','mimes:png,jpg,jpeg']
+            'banner' => ['required','image','mimes:png,jpg,jpeg']
         ];
 
     }

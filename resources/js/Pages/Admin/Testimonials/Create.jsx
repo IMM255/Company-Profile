@@ -1,9 +1,9 @@
 import React from "react";
-import { useForm } from "@inertiajs/react";
-import Layout from "@/Layouts/Layout";
+import { useForm, Link, router } from "@inertiajs/react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-const CreateTestimonial = ({ projectClients }) => {
-    const { data, setData, post, errors } = useForm({
+const CreateTestimonial = ({ projectsClients }) => {
+    const { data, setData, errors } = useForm({
         project_client_id: "",
         message: "",
         thumbnail: null,
@@ -11,11 +11,25 @@ const CreateTestimonial = ({ projectClients }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("testimonials.store")); // Pastikan route sesuai dengan Laravel
+        router.post(route("admin.testimonials.store"), data);
     };
 
     return (
-        <Layout>
+        <AuthenticatedLayout
+            header={
+                <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Testimonial
+                    </h2>
+                    <Link
+                        href={route("admin.statistics.create")}
+                        className="font-bold py-2 px-4 bg-indigo-700 text-white rounded-full"
+                    >
+                        Add New Testimonial
+                    </Link>
+                </div>
+            }
+        >
             <div className="py-12">
                 <div className="max-w-3xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden p-10 shadow-sm sm:rounded-lg">
@@ -46,10 +60,10 @@ const CreateTestimonial = ({ projectClients }) => {
                                         )
                                     }
                                 >
-                                    <option value="">
+                                    <option value="" disabled>
                                         Choose project_client
                                     </option>
-                                    {projectClients.map((client) => (
+                                    {projectsClients.map((client) => (
                                         <option
                                             key={client.id}
                                             value={client.id}
@@ -127,7 +141,7 @@ const CreateTestimonial = ({ projectClients }) => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </AuthenticatedLayout>
     );
 };
 

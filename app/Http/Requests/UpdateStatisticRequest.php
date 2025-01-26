@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class UpdateStatisticRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateStatisticRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,12 @@ class UpdateStatisticRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->all())
+
         return [
             'name' => ['required','string','max:255'],
+            'icon' => ['sometimes','image','mimes:png,jpg,jpeg'],
             'goal' => ['required','string','max:255'],
-            'icon' => ['sometimes','image','mimes:png,jpg,jpeg']
         ];
     }
 }

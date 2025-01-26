@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Link } from "@inertiajs/react";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Index({ items }) {
     return (
@@ -18,85 +19,94 @@ export default function Index({ items }) {
                 </div>
             }
         >
-            <div>
-                {/* Content */}
-                <div className="py-12">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
-                            {items.length > 0 ? (
-                                items.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="item-card flex flex-row justify-between items-center"
-                                    >
-                                        {/* Item Details */}
-                                        <div className="flex flex-row items-center gap-x-3">
-                                            <img
-                                                src={
-                                                    item.icon ||
-                                                    "/default-image.jpg"
-                                                }
-                                                alt={item.title}
-                                                className="rounded-2xl object-cover w-[90px] h-[90px]"
-                                            />
-                                            <div className="flex flex-col">
+            <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10">
+                        <table className="w-full table-auto">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="text-left px-6 py-2">
+                                        Nama
+                                    </th>
+                                    <th className="text-left px-6 py-2">
+                                        Goal
+                                    </th>
+                                    <th className="text-left px-6 py-2">
+                                        Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {items.length > 0 ? (
+                                    items.map((item) => (
+                                        <tr key={item.id}>
+                                            <td className="px-4 py-2 flex items-center">
+                                                <img
+                                                    src={item.icon_url}
+                                                    alt={item.name}
+                                                    className="rounded-2xl object-cover w-[90px] h-[90px] mr-3"
+                                                />
                                                 <h3 className="text-indigo-950 text-xl font-bold">
-                                                    {item.title}
+                                                    {item.name}
                                                 </h3>
-                                            </div>
-                                        </div>
-
-                                        {/* Date */}
-                                        <div className="hidden md:flex flex-col">
-                                            <p className="text-slate-500 text-sm">
-                                                Date
-                                            </p>
-                                            <h3 className="text-indigo-950 text-xl font-bold">
-                                                {item.date}
-                                            </h3>
-                                        </div>
-
-                                        {/* Actions */}
-                                        <div className="hidden md:flex flex-row items-center gap-x-3">
-                                            <Link
-                                                href={route(
-                                                    admin.statistics.edit
-                                                )}
-                                                className="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full"
-                                            >
-                                                Edit
-                                            </Link>
-                                            <form
-                                                onSubmit={(e) => {
-                                                    e.preventDefault();
-                                                    // Handle delete request
-                                                    if (
-                                                        confirm("Are you sure?")
-                                                    ) {
-                                                        Inertia.post(
-                                                            `/about/${item.id}/delete`,
-                                                            {
-                                                                _method:
-                                                                    "DELETE",
-                                                            }
-                                                        );
-                                                    }
-                                                }}
-                                            >
-                                                <button
-                                                    type="submit"
-                                                    className="font-bold py-4 px-6 bg-red-700 text-white rounded-full"
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                {item.goal}
+                                            </td>
+                                            <td className="px-4">
+                                                <Link
+                                                    href={route(
+                                                        "admin.statistics.edit",
+                                                        [item.id]
+                                                    )}
+                                                    className="inline-block font-bold py-2 px-4 bg-indigo-700 text-white rounded-full mr-2"
                                                 >
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-gray-500">No items found.</p>
-                            )}
-                        </div>
+                                                    Edit
+                                                </Link>
+                                                <form
+                                                    className="inline-block
+                                                    "
+                                                    onSubmit={(e) => {
+                                                        e.preventDefault();
+                                                        if (
+                                                            confirm(
+                                                                "Are you sure?"
+                                                            )
+                                                        ) {
+                                                            Inertia.delete(
+                                                                route(
+                                                                    "admin.statistics.destroy",
+                                                                    {
+                                                                        statistic:
+                                                                            item.id,
+                                                                    }
+                                                                )
+                                                            );
+                                                        }
+                                                    }}
+                                                >
+                                                    <button
+                                                        type="submit"
+                                                        className="inline-block font-bold py-2 px-4 bg-red-700 text-white rounded-full"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={3}
+                                            className="px-4 py-2 text-gray-500"
+                                        >
+                                            No items found.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

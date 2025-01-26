@@ -1,5 +1,5 @@
-import React from "react";
-import { useForm, usePage, router, Link } from "@inertiajs/react";
+import React, { useState } from "react";
+import { useForm, usePage, Link, router } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function Create() {
@@ -8,23 +8,39 @@ export default function Create() {
     const { data, setData } = useForm({
         name: "",
         thumbnail: null,
-        icon: null,
-        subtitle: "",
+        type: "",
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.post(route("admin.principles.store"), data);
+        router.post(route("admin.abouts.store"), data);
     };
+
+    // const addKeypoint = () => {
+    //     setData("keypoints", [...data.keypoints, ""]);
+    // };
+
+    // const updateKeypoint = (index, value) => {
+    //     const updatedKeypoints = [...data.keypoints];
+    //     updatedKeypoints[index] = value;
+    //     setData("keypoints", updatedKeypoints);
+    // };
+
+    // const removeKeypoint = (index) => {
+    //     const updatedKeypoints = [...data.keypoints];
+    //     updatedKeypoints.splice(index, 1);
+    //     setData("keypoints", updatedKeypoints);
+    // };
+
     return (
         <AuthenticatedLayout
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Principles
+                        About
                     </h2>
                     <Link
-                        href={route("admin.statistics.create")}
+                        href={route("admin.abouts.create")}
                         className="font-bold py-2 px-4 bg-indigo-700 text-white rounded-full"
                     >
                         Add New
@@ -36,7 +52,7 @@ export default function Create() {
                 <div className="max-w-3xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden p-10 shadow-sm sm:rounded-lg">
                         <h2 className="font-semibold text-xl text-gray-800 leading-tight mb-6">
-                            New Principle
+                            New About
                         </h2>
                         <form
                             onSubmit={handleSubmit}
@@ -91,61 +107,91 @@ export default function Create() {
                                 )}
                             </div>
 
-                            {/* Icon Field */}
+                            {/* Type Field */}
                             <div className="mt-4">
                                 <label
-                                    htmlFor="icon"
+                                    htmlFor="type"
                                     className="block font-medium text-sm text-gray-700"
                                 >
-                                    Icon
+                                    Type
                                 </label>
-                                <input
-                                    type="file"
-                                    id="icon"
+                                <select
+                                    id="type"
+                                    value={data.type}
                                     onChange={(e) =>
-                                        setData("icon", e.target.files[0])
+                                        setData("type", e.target.value)
                                     }
-                                    className="block mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                                    required
-                                />
-                                {errors.icon && (
+                                    className="py-3 rounded-lg pl-3 w-full border border-slate-300"
+                                >
+                                    <option value="">Choose type</option>
+                                    <option value="Visions">Visions</option>
+                                    <option value="Missions">Missions</option>
+                                </select>
+                                {errors.type && (
                                     <div className="text-red-600 text-sm mt-2">
-                                        {errors.icon}
+                                        {errors.type}
                                     </div>
                                 )}
                             </div>
 
-                            {/* Subtitle Field */}
-                            <div>
-                                <label
-                                    htmlFor="subtitle"
-                                    className="block font-medium text-sm text-gray-700"
+                            {/* Keypoints Section */}
+                            {/* <h3 className="text-indigo-950 text-lg font-bold mt-4">
+                                Keypoints
+                            </h3>
+                            <div className="mt-4">
+                                <div className="flex flex-col gap-y-5">
+                                    {data.keypoints
+                                        .slice(0, 3)
+                                        .map((keypoint, index) => (
+                                            <div
+                                                key={index}
+                                                className="flex gap-3"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    className="py-3 rounded-lg border-slate-300 border flex-1"
+                                                    placeholder="Write your keypoint"
+                                                    value={keypoint}
+                                                    onChange={(e) =>
+                                                        updateKeypoint(
+                                                            index,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        removeKeypoint(index)
+                                                    }
+                                                    className="px-4 py-2 bg-red-700 text-white rounded-lg"
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        ))}
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={addKeypoint}
+                                    className="mt-3 px-4 py-2 bg-indigo-700 text-white rounded-lg"
                                 >
-                                    Subtitle
-                                </label>
-                                <input
-                                    type="text"
-                                    id="subtitle"
-                                    value={data.subtitle}
-                                    onChange={(e) =>
-                                        setData("subtitle", e.target.value)
-                                    }
-                                    className="block mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                                    required
-                                />
-                                {errors.subtitle && (
+                                    Add Keypoint
+                                </button>
+                                {errors.keypoints && (
                                     <div className="text-red-600 text-sm mt-2">
-                                        {errors.subtitle}
+                                        {errors.keypoints}
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
+
                             {/* Submit Button */}
                             <div className="flex items-center justify-end mt-4">
                                 <button
                                     type="submit"
                                     className="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full"
                                 >
-                                    Add New Principle
+                                    Add New About
                                 </button>
                             </div>
                         </form>

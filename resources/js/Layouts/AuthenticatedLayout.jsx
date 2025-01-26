@@ -119,24 +119,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <Dropdown.Content>
                                         <Dropdown.Link
                                             href={route(
-                                                "admin.statistics.index"
+                                                "admin.testimonials.index"
                                             )}
                                         >
-                                            Statistics
+                                            Testimonials
                                         </Dropdown.Link>
                                         <Dropdown.Link
-                                            href={route(
-                                                "admin.principles.index"
-                                            )}
+                                            href={route("admin.clients.index")}
                                         >
-                                            Our Principles
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route(
-                                                "admin.hero_sections.index"
-                                            )}
-                                        >
-                                            Hero Section
+                                            Clients
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>

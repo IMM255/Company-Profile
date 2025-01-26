@@ -11,7 +11,7 @@ class UpdatePrincipleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,12 +21,12 @@ class UpdatePrincipleRequest extends FormRequest
      */
     public function rules(): array
     {
+        //  dd($this->all());
         return [
             'name' => ['required','string','max:255'],
             'subtitle' => ['required','string','max:255'],
             'thumbnail' => ['sometimes','image','mimes:png,jpg,jpeg'],
             'icon' => ['sometimes','image','mimes:png,jpg,jpeg'],
-
         ];
     }
 }

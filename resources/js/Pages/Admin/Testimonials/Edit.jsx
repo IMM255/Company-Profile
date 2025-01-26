@@ -1,23 +1,36 @@
 import React from "react";
-import { useForm } from "@inertiajs/react";
-import Layout from "@/Layouts/Layout";
+import { useForm, router } from "@inertiajs/react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-export default function EditTestimonial({ testimonial, projectClients }) {
+export default function EditTestimonial({ items, projectClients }) {
     const { data, setData, post, errors } = useForm({
-        project_client_id: testimonial.project_client_id || "",
-        message: testimonial.message || "",
+        project_client_id: items.project_client_id || "",
+        message: items.message || "",
         thumbnail: null,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.testimonials.update", testimonial.id), {
-            forceFormData: true, // Ensures form-data submission for file uploads
-        });
+        const formData = new FormData();
+        formData.append("_method", "PUT");
+        formData.append("project_client_id", data.project_client_id);
+        formData.append("message", data.message);
+        if (data.thumbnail) {
+            formData.append("thumbnail", data.thumbnail);
+        }
+        router.post(route("admin.testimonials.update", items.id), formData);
     };
 
     return (
-        <Layout title="Edit Testimonial">
+        <AuthenticatedLayout
+            header={
+                <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Update Statistic
+                    </h2>
+                </div>
+            }
+        >
             <div className="py-12">
                 <div className="max-w-3xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden p-10 shadow-sm sm:rounded-lg">
@@ -93,9 +106,9 @@ export default function EditTestimonial({ testimonial, projectClients }) {
                                 >
                                     Thumbnail
                                 </label>
-                                {testimonial.thumbnail && (
+                                {data.thumbnail && (
                                     <img
-                                        src={testimonial.thumbnail}
+                                        src={data.thumbnail}
                                         alt="Current Thumbnail"
                                         className="rounded-2xl object-cover w-[90px] h-[90px] mb-3"
                                     />
@@ -128,6 +141,6 @@ export default function EditTestimonial({ testimonial, projectClients }) {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </AuthenticatedLayout>
     );
 }

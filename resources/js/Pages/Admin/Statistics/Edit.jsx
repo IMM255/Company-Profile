@@ -1,18 +1,26 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 
-export default function New() {
+export default function Edit({ statistic }) {
     const { errors } = usePage().props;
 
-    const { data, setData, post } = useForm({
-        name: "",
+    const { data, setData } = useForm({
+        name: statistic.name,
         icon: null,
-        goal: "",
+        goal: statistic.goal,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.statistics.update"));
+        const formData = new FormData();
+        formData.append("_method", "PUT"); // Menambahkan _method agar digunakan sebagai PUT
+        formData.append("name", data.name);
+        formData.append("goal", data.goal);
+        if (data.icon) {
+            formData.append("icon", data.icon);
+        }
+        router.post(`/admin/statistics/${statistic.id}`, formData);
     };
 
     return (
@@ -20,7 +28,7 @@ export default function New() {
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Statistic
+                        Update Statistic
                     </h2>
                 </div>
             }
@@ -29,7 +37,7 @@ export default function New() {
                 <div className="max-w-3xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden p-10 shadow-sm sm:rounded-lg">
                         <h2 className="font-semibold text-xl text-gray-800 leading-tight mb-6">
-                            New Statistic
+                            Update Statistic
                         </h2>
                         <form
                             onSubmit={handleSubmit}
@@ -46,6 +54,7 @@ export default function New() {
                                 <input
                                     type="text"
                                     id="name"
+                                    name="name"
                                     value={data.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
@@ -71,11 +80,11 @@ export default function New() {
                                 <input
                                     type="file"
                                     id="icon"
+                                    name="icon"
                                     onChange={(e) =>
                                         setData("icon", e.target.files[0])
                                     }
                                     className="block mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                                    required
                                 />
                                 {errors.icon && (
                                     <div className="text-red-600 text-sm mt-2">
@@ -95,6 +104,7 @@ export default function New() {
                                     type="text"
                                     id="goal"
                                     value={data.goal}
+                                    name="goal"
                                     onChange={(e) =>
                                         setData("goal", e.target.value)
                                     }
@@ -114,7 +124,7 @@ export default function New() {
                                     type="submit"
                                     className="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full"
                                 >
-                                    Add New Statistic
+                                    Update Statistic
                                 </button>
                             </div>
                         </form>

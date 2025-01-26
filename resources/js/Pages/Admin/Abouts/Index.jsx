@@ -7,10 +7,10 @@ export default function Index({ items }) {
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Our Client
+                        Company About
                     </h2>
                     <Link
-                        href={route("admin.clients.create")}
+                        href={route("admin.abouts.create")}
                         className="font-bold py-2 px-4 bg-indigo-700 text-white rounded-full"
                     >
                         Add New
@@ -28,13 +28,10 @@ export default function Index({ items }) {
                                         Name
                                     </th>
                                     <th className="text-left px-6 py-2">
-                                        Occupation
+                                        Thumbnail
                                     </th>
                                     <th className="text-left px-6 py-2">
-                                        Avatar
-                                    </th>
-                                    <th className="text-left px-6 py-2">
-                                        Logo
+                                        Type
                                     </th>
                                     <th className="text-left px-6 py-2">
                                         Aksi
@@ -45,30 +42,23 @@ export default function Index({ items }) {
                                 {items.length > 0 ? (
                                     items.map((item) => (
                                         <tr key={item.id}>
-                                            <td className="px-4 py-2  items-center">
+                                            <td className="px-4 py-2 flex items-center">
                                                 {item.name}
                                             </td>
-                                            <td className="px-4 py-2  items-center">
-                                                {item.occupation}
-                                            </td>
                                             <td>
                                                 <img
-                                                    src={item.avatar_url}
+                                                    src={item.thumbnail_url}
                                                     alt={item.name}
                                                     className="rounded-2xl object-cover w-[90px] h-[90px] mr-3"
                                                 />
                                             </td>
-                                            <td>
-                                                <img
-                                                    src={item.logo_url}
-                                                    alt={item.name}
-                                                    className="rounded-2xl object-cover w-[90px] h-[90px] mr-3"
-                                                />
+                                            <td className="px-4 py-2">
+                                                {item.type}
                                             </td>
                                             <td className="px-4">
                                                 <Link
                                                     href={route(
-                                                        "admin.clients.edit",
+                                                        "admin.abouts.edit",
                                                         [item.id]
                                                     )}
                                                     className="inline-block font-bold py-2 px-4 bg-indigo-700 text-white rounded-full mr-2"
@@ -86,9 +76,9 @@ export default function Index({ items }) {
                                                         ) {
                                                             router.delete(
                                                                 route(
-                                                                    "admin.clients.destroy",
+                                                                    "admin.statistics.destroy",
                                                                     {
-                                                                        client: item.id,
+                                                                        about: item.id,
                                                                     }
                                                                 )
                                                             );

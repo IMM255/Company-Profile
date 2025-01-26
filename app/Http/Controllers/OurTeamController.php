@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeamRequest;
+use App\Http\Requests\UpdateTeamRequest;
 use App\Models\OurTeam;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class OurTeamController extends Controller
@@ -13,7 +16,10 @@ class OurTeamController extends Controller
      */
     public function index()
     {
-        $team = OurTeam::orderByDesc('id')->paginate(10);
+        $team = OurTeam::all()->map(function($item){
+            $item->avatar_url = $item->avatar ? Storage::url($item->avatar) : null;
+            return $item;
+        });
         return Inertia::render('Admin/Teams/Index',['items' => $team]);
     }
 
@@ -28,15 +34,23 @@ class OurTeamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTeamRequest $request)
     {
-        //
+        DB::transaction(function() use ($request){
+            $validated = $request->validated();
+            if($request->hasFile('avatar')){
+                $avatar_url = $request->file('avatar')->store('avatars','public');
+                $validated['avatar'] = $avatar_url;
+            }
+            OurTeam::create($validated);
+        });
+        return redirect()->route('admin.teams.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(OurTeam $ourTeam)
+    public function show(OurTeam $team)
     {
         //
     }
@@ -44,24 +58,35 @@ class OurTeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OurTeam $ourTeam)
+    public function edit(OurTeam $team)
     {
-        return Inertia::render('Admin/Teams/Edit');
+        return Inertia::render('Admin/Teams/Edit',["items" => $team]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OurTeam $ourTeam)
+    public function update(UpdateTeamRequest $request, OurTeam $team)
     {
-        //
+        DB::transaction(function() use ($request, $team){
+            $validated = $request->validated();
+            if($request->hasFile('avatar')){
+                $avatar_url = $request->file('avatar')->store('avatars','public');
+                $validated['avatar'] = $avatar_url;
+            }
+            $team->update($validated);
+        });
+        return redirect()->route('admin.teams.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OurTeam $ourTeam)
+    public function destroy(OurTeam $team)
     {
-        //
+        DB::transaction(function() use ($team) {
+            $team->delete();
+        });
+        return redirect()->route('admin.teams.index');
     }
 }

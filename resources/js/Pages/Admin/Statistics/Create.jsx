@@ -1,20 +1,15 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm, usePage } from "@inertiajs/react";
+import { Inertia } from "@inertiajs/inertia";
 
-export default function New() {
+export default function Create() {
     const { errors } = usePage().props;
 
-    const { data, setData, post } = useForm({
+    const { data, setData } = useForm({
         name: "",
         icon: null,
         goal: "",
     });
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("admin.statistics.store"));
-    };
-
     return (
         <AuthenticatedLayout
             header={
@@ -32,7 +27,14 @@ export default function New() {
                             New Statistic
                         </h2>
                         <form
-                            onSubmit={handleSubmit}
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                // Handle delete request
+                                Inertia.post(
+                                    route("admin.statistics.store"),
+                                    data
+                                );
+                            }}
                             encType="multipart/form-data"
                         >
                             {/* Name Field */}
@@ -75,7 +77,6 @@ export default function New() {
                                         setData("icon", e.target.files[0])
                                     }
                                     className="block mt-1 w-full rounded-lg border-gray-300 shadow-sm"
-                                    required
                                 />
                                 {errors.icon && (
                                     <div className="text-red-600 text-sm mt-2">
